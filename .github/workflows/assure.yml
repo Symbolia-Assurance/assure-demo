@@ -57,3 +57,11 @@ jobs:
           api-key: ${{ secrets.ASSURE_API_KEY }}
           profile: python-auth-declared-model
           artefacts: ${{ runner.temp }}/assure-bundle
+
+      - name: Keep the result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: assure-verdict
+          path: assure-verdict.json
+          if-no-files-found: ignore
