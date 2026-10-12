@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write    # the Action signs in with this workflow's GitHub identity; no stored key
 
 jobs:
   check:
@@ -54,6 +55,5 @@ jobs:
       - name: Assure check
         uses: Symbolia-Assurance/assure-action@beta
         with:
-          api-key: ${{ secrets.ASSURE_API_KEY }}
           profile: python-auth-declared-model
           artefacts: ${{ runner.temp }}/assure-bundle
