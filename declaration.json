@@ -1,0 +1,45 @@
+{
+  "schema": "assure.python-auth.declaration/v1",
+  "id": "team-notes",
+  "language": "python",
+  "idiom": "flask-session-decorator",
+  "app_roots": ["app"],
+  "app_objects": [{"module": "app", "name": "app"}],
+  "session_identity_key": "user_id",
+  "session_state_keys": ["pending_user_id"],
+  "second_factor_keys": ["pending_user_id"],
+  "guards": [
+    {
+      "decorator": "login_required",
+      "definition": "app.guards.login_required",
+      "requires": "session_key_present",
+      "key": "user_id"
+    },
+    {
+      "decorator": "admin_required",
+      "definition": "app.guards.admin_required",
+      "requires": "actor_role",
+      "role": "admin"
+    }
+  ],
+  "identity_writers": ["app.verify_code"],
+  "elevation_writers": [],
+  "signout_views": ["app.logout"],
+  "libraries": [],
+  "public_routes": [
+    {"method": "GET", "path": "/"},
+    {"method": "GET", "path": "/login"},
+    {"method": "POST", "path": "/login"},
+    {"method": "POST", "path": "/login/code"},
+    {"method": "POST", "path": "/logout"}
+  ],
+  "registrations_complete": true,
+  "requirements_file": "requirements.md",
+  "execution_authorized": false,
+  "hardware_authorized": false,
+  "industrial_release_authorized": false,
+  "release_allowed": false,
+  "physical_validation": false,
+  "simulation": true,
+  "self_approved": false
+}
