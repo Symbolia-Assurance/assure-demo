@@ -16,8 +16,8 @@ what [Assure](https://github.com/Symbolia-Assurance/assure-action) checks on eve
 | [#2 Agent: add CSV export for admins](https://github.com/Symbolia-Assurance/assure-demo/pull/2) | An AI-style change adds `GET /admin/export` and forgets the sign-in guard | **red**: `R1 — disproven — app/__init__.py:107`, the route reachable without signing in |
 | #2, after the fix | Adds `@login_required` and `@admin_required` to the export | **green** again: every rule holds |
 
-Open a pull request's **Checks** tab and expand the **Assure check** step to read the full result. Each run also
-keeps the full result as a downloadable file (`assure-verdict`, under the run's artefacts).
+Open a pull request's **Checks** tab and expand the **Assure check** step to read the full result. Runs on `main` also
+keep the full result as a downloadable file (`assure-verdict`, under the run's artefacts).
 
 ## Your rules, in plain English: `requirements.md`
 
