@@ -6,7 +6,7 @@ remove notes.
 """
 import os
 
-from flask import Flask, abort, redirect, request, session
+from flask import Flask, Response, abort, redirect, request, session
 from markupsafe import escape
 
 from .guards import admin_required, login_required
@@ -18,6 +18,7 @@ from .store import (
     check_password,
     delete_note,
     get_note,
+    users_csv,
 )
 
 app = Flask(__name__)
@@ -101,3 +102,14 @@ def admin_users():
 def admin_delete_note(note_id):
     delete_note(note_id)
     return redirect("/notes")
+
+
+@app.route("/admin/export", methods=["GET"])
+@login_required
+@admin_required
+def admin_export():
+    return Response(
+        users_csv(),
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment; filename=users.csv"},
+    )
