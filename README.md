@@ -5,7 +5,7 @@
 Team Notes is a small Flask app where a team keeps shared notes. It exists to show, on real pull requests,
 what [Assure](https://github.com/Symbolia-Assurance/assure-action) checks on every change. It is not a product.
 
-> **Early access opens 13 October 2026.** Free to start. Join the community Discord (link in the launch post)
+> **Early access opens 13 October 2026.** Free to start. Join the [community Discord](https://discord.gg/Ef4232y3S)
 > and we'll set Assure up on your repository.
 
 ## See it work: three pull requests
