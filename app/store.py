@@ -2,7 +2,9 @@
 
 The two members are fictional. Their passwords and codes are placeholders.
 """
+import csv
 import hmac
+import io
 from dataclasses import dataclass
 
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -70,3 +72,12 @@ def add_note(author_id, title, body):
 def delete_note(note_id):
     if note_id in NOTES:
         del NOTES[note_id]
+
+
+def users_csv():
+    out = io.StringIO()
+    writer = csv.writer(out)
+    writer.writerow(["id", "email", "role"])
+    for user in USERS.values():
+        writer.writerow([user.id, user.email, user.role])
+    return out.getvalue()
