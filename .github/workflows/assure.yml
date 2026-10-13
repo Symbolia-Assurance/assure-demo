@@ -8,7 +8,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
   id-token: write    # the Action signs in with this workflow's GitHub identity; no stored key
 
 jobs:
@@ -25,35 +26,7 @@ jobs:
         with:
           python-version: "3.14"
 
-      # The python-auth profile reads raw/REPOSITORY.json, raw/declaration.json and
-      # raw/repository/<path>. This is the recipe from the Assure API quick start, section 15.
-      - name: Write the Assure bundle
-        run: |
-          if git ls-files -s | grep -q '^1[26]0000 '; then
-            echo 'a symbolic link or a submodule is tracked; the checker refuses it' >&2; exit 1
-          fi
-          bundle="$RUNNER_TEMP/assure-bundle"
-          rm -rf "$bundle" && mkdir -p "$bundle/raw/repository"
-          git ls-files -s | while read -r mode blob stage path; do
-            mkdir -p "$bundle/raw/repository/$(dirname "$path")"
-            cp "$path" "$bundle/raw/repository/$path"
-          done
-          cp declaration.json "$bundle/raw/declaration.json"
-          {
-            printf '{"schema":"assure.codeauth.repository/v1","commit":"%s","tree":"%s","files":[' \
-              "$(git rev-parse HEAD)" "$(git rev-parse 'HEAD^{tree}')"
-            sep=''
-            git ls-files -s | while read -r mode blob stage path; do
-              printf '%s{"path":"%s","bytes":%s,"sha256":"%s","mode":"%s"}' "$sep" "$path" \
-                "$(wc -c < "$path" | tr -d ' ')" "$(sha256sum "$path" | cut -c1-64)" "$mode"
-              sep=','
-            done
-            printf '],"execution_authorized":false,"hardware_authorized":false,"industrial_release_authorized":false,'
-            printf '"release_allowed":false,"physical_validation":false,"simulation":true,"self_approved":false}\n'
-          } > "$bundle/raw/REPOSITORY.json"
-
       - name: Assure check
         uses: Symbolia-Assurance/assure-action@beta
         with:
           profile: python-auth-declared-model
-          artefacts: ${{ runner.temp }}/assure-bundle
