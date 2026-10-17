@@ -58,6 +58,7 @@ jobs:
           api-key: ${{ secrets.ASSURE_API_KEY }}
           profile: python-auth-declared-model
           artefacts: ${{ runner.temp }}/assure-bundle
+          requirements: requirements.md
 
       - name: Keep the result
         if: always()
