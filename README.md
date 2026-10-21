@@ -12,9 +12,11 @@ what [Assure](https://github.com/Symbolia-Assurance/assure-action) checks on eve
 
 | Pull request | What changed | What Assure said |
 |---|---|---|
-| [#1 Add Assure](https://github.com/Symbolia-Assurance/assure-demo/pull/1) | Adds the Assure check to the workflow | **green**: every rule in `requirements.md` holds; 2 catalogue checks not established, each with its reason |
-| [#2 Agent: add CSV export for admins](https://github.com/Symbolia-Assurance/assure-demo/pull/2) | An AI-style change adds `GET /admin/export` and forgets the sign-in guard | **red**: `R1 — disproven — app/__init__.py:107`, the route reachable without signing in |
-| #2, after the fix | Adds `@login_required` and `@admin_required` to the export | **green** again: every rule holds |
+| [#4 Clarify the homepage copy](https://github.com/Symbolia-Assurance/assure-demo/pull/4) | Changes the public homepage's introduction | [**No rule broken:** R1–R4 hold](https://github.com/Symbolia-Assurance/assure-demo/pull/4#issuecomment-6304573050) |
+| [#5 Give the export a descriptive filename](https://github.com/Symbolia-Assurance/assure-demo/pull/5) | Names the CSV download `team-members.csv`, keeping its guards | [**No rule broken:** R1–R4 hold](https://github.com/Symbolia-Assurance/assure-demo/pull/5#issuecomment-6304577657) |
+| [#6 Demonstrate the unguarded export](https://github.com/Symbolia-Assurance/assure-demo/pull/6) | Removes the sign-in and admin guards from `GET /admin/export` | [**One rule broken:** R1 is disproven at `app/__init__.py:107`](https://github.com/Symbolia-Assurance/assure-demo/pull/6#issuecomment-6304579056) |
+
+Each result links to the Assure bot's actual comment on that pull request. The deliberately broken example remains unmerged.
 
 Open a pull request's **Checks** tab and expand the **Assure check** step to read the full result. Runs on `main` also
 keep the full result as a downloadable file (`assure-verdict`, under the run's artefacts).
@@ -41,14 +43,14 @@ The check is green when nothing is disproven.
 
 ## What the check reads
 
-The check reads the source; it does not run the app. For this app it read ten routes, the two guards
+The check reads the source; it does not run the app. For this app it read eleven routes, the two guards
 (`login_required`, `admin_required`) on each, and the session keys `declaration.json` names:
 
 | Route | Guards |
 |---|---|
 | `GET /`, `GET /login`, `POST /login`, `POST /login/code`, `POST /logout` | public |
 | `GET /notes`, `POST /notes`, `GET /notes/<id>` | `login_required` |
-| `GET /admin/users`, `POST /admin/notes/<id>/delete` | `login_required`, `admin_required` |
+| `GET /admin/users`, `POST /admin/notes/<id>/delete`, `GET /admin/export` | `login_required`, `admin_required` |
 
 - `declaration.json` tells the check how this app signs people in: the session key that holds the signed-in
   user, the two guards, the view that sets the user, and the public routes.
