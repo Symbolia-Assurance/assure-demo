@@ -27,7 +27,7 @@ app.secret_key = os.environ.get("TEAM_NOTES_SECRET_KEY", "dev-only-change-me")
 
 @app.route("/", methods=["GET"])
 def home():
-    return "<h1>Team Notes</h1><p>Shared notes for a small team. <a href='/login'>Sign in</a></p>"
+    return "<h1>Team Notes</h1><p>Shared notes for your team. <a href='/login'>Sign in</a></p>"
 
 
 @app.route("/login", methods=["GET"])
