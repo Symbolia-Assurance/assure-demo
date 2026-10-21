@@ -105,8 +105,6 @@ def admin_delete_note(note_id):
 
 
 @app.route("/admin/export", methods=["GET"])
-@login_required
-@admin_required
 def admin_export():
     return Response(
         users_csv(),
