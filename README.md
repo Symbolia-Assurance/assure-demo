@@ -5,7 +5,7 @@
 Team Notes is a small Flask app where a team keeps shared notes. It exists to show, on real pull requests,
 what [Assure](https://github.com/Symbolia-Assurance/assure-action) checks on every change. It is not a product.
 
-> **Early access opens 13 October 2026.** Free to start. Join the [community Discord](https://discord.gg/Ef4232y3S)
+> **Free to start.** Join the [community Discord](https://discord.gg/Ef4232y3S)
 > and we'll set Assure up on your repository.
 
 ## See it work: three pull requests
@@ -58,10 +58,10 @@ The check reads the source; it does not run the app. For this app it read ten ro
 
 1. Copy `.github/workflows/assure.yml` into your repository.
 2. Add your `declaration.json` and a `requirements.md` at the root (start from this repository's).
-3. Add an `ASSURE_API_KEY` repository secret. During early access we issue keys from the Discord.
+3. Keep the workflow's `id-token: write` and `pull-requests: write` permissions so Assure can use the job's GitHub identity and comment on the pull request.
 
-The workflow here includes a short step that packs the repository files for the check. A one-step version of the
-Action, and sign-in with GitHub's own workflow identity instead of a stored key, are on the way.
+The workflow here includes a short step that packs the repository files for the check. The Action signs in
+with GitHub's own workflow identity; no stored Assure key is required.
 
 **Served today:** Python (Flask) sign-in, PostgreSQL and HTTP configuration. More frameworks are in progress.
 
